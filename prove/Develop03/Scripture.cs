@@ -5,8 +5,8 @@ class Scripture
 {
     private Reference _reference;
     private string _scriptureStr;
-    private List<Word> _scripture;
-    private List<int> _unhiddenWordIndexes;
+    private List<Word> _scripture = new();
+    private List<int> _unhiddenWordIndexes = new();
 
     public Scripture()
     {
@@ -55,8 +55,11 @@ class Scripture
     {
         foreach (string word in scripture.Split(" "))
         {
-            Word classInstance = new Word(word);
-            _scripture.Add(classInstance);
+            if (word != "")
+            {
+                Word classInstance = new Word(word);
+                _scripture.Add(classInstance);
+            }
         }
     }
 }
