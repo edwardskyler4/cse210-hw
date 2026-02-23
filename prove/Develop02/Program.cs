@@ -7,6 +7,8 @@ class Program
 {
     static void Main(string[] args)
     {
+        // To add creativity, I included a csv file of prompts and code to randomly select a prompt from that csv for each entry. This is on the entries file, under the getPrompt method. I also added a feature to the entry printing in which the user can choose to print only one entry (based on date) or all of them. This can be found in the Journal file, on lines 20-65.
+
         Journal journal = new();
         bool run = true;
 
@@ -18,16 +20,16 @@ class Program
             switch (choice)
             {
                 case "1":
-                    journal.addEntry();
+                    journal.AddEntry();
                     break;
                 case "2":
-                    journal.printEntries();
+                    journal.PrintEntries();
                     break;
                 case "3":
-                    journal.saveToFile();
+                    journal.SaveToFile();
                     break;
                 case "4":
-                    journal._entries = journal.loadFromFile();
+                    journal.LoadFromFile();
                     break;
                 case "5":
                     run = false;

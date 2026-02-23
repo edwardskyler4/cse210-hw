@@ -4,12 +4,13 @@ using System.Text.Json.Serialization;
 using System.IO.Enumeration;
 using System.Runtime.CompilerServices;
 using System.Dynamic;
+using Microsoft.VisualBasic;
 
 class Journal
 {
-    public List<Entry> _entries { get; set; } = new();
+    private List<Entry> _entries = new();
 
-    public void addEntry()
+    public void AddEntry()
     {
         Entry entry = new Entry();
         entry._prompt = entry.getPrompt();
@@ -17,7 +18,7 @@ class Journal
 
         _entries.Add(entry);
     }
-    public void printEntries()
+    public void PrintEntries()
     {
         if (_entries.Count > 0)
         {
@@ -37,14 +38,14 @@ class Journal
             {
                 foreach (Entry entry in _entries)
                 {
-                    printSingleEntry(entry);
+                    PrintSingleEntry(entry);
                 }
                 Console.Write("\nPress [ENTER] to return to menu.");
                 Console.ReadLine();
             }
             else if (dates.Contains(response))
             {
-                printSingleEntry(_entries[dates.IndexOf(response)]);
+                PrintSingleEntry(_entries[dates.IndexOf(response)]);
             }
             else
             {
@@ -56,42 +57,51 @@ class Journal
             Console.WriteLine("Sorry, you don't appear to have any entries. Try writing some or loading your journal from another file.");
         }
     }
-    private void printSingleEntry(in Entry entry)
+    private void PrintSingleEntry(in Entry entry)
     {
         Console.WriteLine();
         Console.WriteLine($"Date: {entry._date}");
         Console.WriteLine($"Prompt: {entry._prompt}");
         Console.WriteLine($"Your Entry: {entry._entry}");
     }
-    public void saveToFile()
+    public void SaveToFile()
     {
-        string filename = getFilename();
-
+        string filename = GetFilename();
     
-        string json = JsonSerializer.Serialize(_entries);
-        File.WriteAllText(filename, json);
+        foreach (Entry entry in _entries)
+        {
+            string date = entry._date;
+            string prompt = entry._prompt;
+            string userInput = entry._entry;
+            string comboString = "\n" + date + "|" + prompt + "|" + userInput;
+            File.AppendAllText(filename, comboString);
+        }
 
         Console.WriteLine("Successfully Saved.");
     }
-    public List<Entry> loadFromFile()
+    public void LoadFromFile()
     {
-        List<Entry> entries = new();
-        string filename = getFilename();
+        string filename = GetFilename();
         
-        string jsons = System.IO.File.ReadAllText(filename);
-        List<Entry> entriesList = JsonSerializer.Deserialize<List<Entry>>(jsons);
-        
-        foreach (Entry entry in entriesList)
+        string[] lines = File.ReadAllLines(filename);
+        foreach (string line in lines)
         {
-            entries.Add(entry);
+            if (line != "")
+            {
+                Entry entry = new();
+                string[] data = line.Split("|");
+                entry._date = data[0];
+                entry._prompt = data[1];
+                entry._entry = data [2];
+                _entries.Add(entry);
+            }
         }
         Console.WriteLine("Successfully Loaded");
-        return entries;
     }
-    private string getFilename()
+    private string GetFilename()
     {
         string filename;
-        Console.Write("Enter the filename you would like to save to (use a .json file): ");
+        Console.Write("Enter the filename you would like to save to: ");
         filename = Console.ReadLine();
         return filename;
     }

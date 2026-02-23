@@ -4,10 +4,9 @@ using System.Reflection.Metadata.Ecma335;
 
 class Entry
 {
-    public string _date { get; set; }
-    public string _entry { get; set; }
-    public string _prompt { get; set; }
-
+    public string _date;
+    public string _entry;
+    public string _prompt;
     public string getPrompt()
     {
         string filename = "prompts.csv";
