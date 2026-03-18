@@ -1,0 +1,4 @@
+simple, do something, do something impressive and hard, 1, [X]
+checklist, small number, a small numbered step goal, 2, [8/8]
+checklist, big number, big number checklsit goal, 3, [1/4000]
+eternal, read scriptures daily, read scriptures every day, 1, N/A
